@@ -47,10 +47,11 @@ runs:
       run: |
         if aws s3 ls "s3://${{ inputs.s3-bucket }}/${{ inputs.s3-key }}" > /dev/null 2>&1; then
           echo "file-exists=true" >> $GITHUB_OUTPUT
-          # Get additional metadata
-          metadata=$(aws s3api head-object --bucket ${{ inputs.s3-bucket }} --key "${{ inputs.s3-key }}")
+          # Get additional metadata and compact the JSON output
+          metadata=$(aws s3api head-object --bucket "${{ inputs.s3-bucket }}" --key "${{ inputs.s3-key }}" | jq -c '.')
           echo "file-metadata=$metadata" >> $GITHUB_OUTPUT
         else
           echo "file-exists=false" >> $GITHUB_OUTPUT
           echo "file-metadata=null" >> $GITHUB_OUTPUT
         fi
+    
