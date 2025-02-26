@@ -40,7 +40,7 @@ runs:
       shell: bash
       run: |
         echo "Downloading file from S3..."
-        aws s3 cp "s3://${{ inputs.s3-bucket }}/${{ inputs.s3-key }}" "${{ inputs.local-path }}"
+        aws s3 cp "s3://${{ inputs.s3-bucket }}/${{ inputs.s3-key }}" "${{ inputs.local-path }}" --only-show-errors
         
       env:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
